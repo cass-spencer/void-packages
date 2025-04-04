@@ -1,0 +1,15 @@
+# Template file for 'klassy'
+pkgname=klassy
+version=6.7.1
+revision=1
+build_style=cmake
+configure_args="-DCMAKE_INSTALL_PREFIX=/usr -DCMAKE_BUILD_TYPE=Release -DBUILD_TESTING=OFF -DKDE_INSTALL_USE_QT_SYS_PATHS=ON"
+hostmakedepends="extra-cmake-modules gettext qt5-x11extras qt5-core qt6-base"
+makedepends="kcoreaddons-devel kconfig-devel kconfigwidgets-devel kguiaddons-devel ki18n-devel kiconthemes-devel kf6-kwindowsystem-devel kirigami2-devel frameworkintegration-devel qt6-base-devel kf6-frameworkintegration-devel kf6-kcmutils-devel qt6-svg-devel kf6-kirigami-devel kf6-kdecoration-devel"
+short_desc="Klassy theme for KDE Plasma"
+maintainer="Cass Spencer <casscardboard@gmail.com>"
+license="Custom - multiple"
+homepage="https://github.com/paulmcauley/klassy"
+#changelog=""
+distfiles="${homepage}/archive/refs/tags/v${version}.tar.gz"
+checksum=663aefe67d9a86f4fd7e0203bcf674850b03d4a1f10ba2ad106f4fd3eac51987
