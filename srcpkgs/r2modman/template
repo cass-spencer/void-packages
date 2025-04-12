@@ -1,0 +1,41 @@
+# Template file for 'r2modman'
+
+#TODO: `xbps-src -Q -a armv6l pkg r2modman` cross compile doesn't work with downloaded files from building to dir
+#       - have to sed a file or something in quasar.conf.js to change architecture maybe?
+#       do something like "defaultArch: armv6l/whatever" under "linux:" in "builder: {" in quasar.conf.js
+pkgname=r2modman
+version=3.2.18
+revision=1
+#hostmakedepends="nodejs yarn"
+hostmakedepends="nodejs"
+short_desc="Mod manager for games using Thunderstore"
+maintainer="Cass Spencer <casscardboard@gmail.com>"
+license="MIT"
+homepage="https://thunderstore.io/package/ebkr/r2modman/"
+distfiles="https://github.com/ebkr/r2modmanPlus/archive/refs/tags/v${version}.tar.gz"
+checksum=63249f332fe9a8378e2a9d54ce10d26da5669127937908348fcf4d13e845057a
+
+pre_build() {
+	corepack yarn install
+}
+
+do_build() {
+	env SKIP_PACKING=true corepack yarn build-linux
+}
+
+do_install() {
+	vmkdir usr/lib/r2modman
+	vmkdir usr/bin
+
+	vcopy "dist/electron/Packaged/linux-unpacked/*" usr/lib/r2modman/
+	vcopy dist/electron/UnPackaged/icon.png usr/lib/r2modman/
+
+	ln -sf /usr/lib/r2modman/r2modman ${DESTDIR}/usr/bin/
+	vinstall ${FILESDIR}/r2modman.desktop 644 usr/share/applications/
+
+	vdoc "docs/Adding a game.md"
+}
+
+post_install() {
+	vlicense LICENSE
+}

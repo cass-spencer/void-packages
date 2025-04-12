@@ -1,0 +1,9 @@
+[Desktop Entry]
+Name=r2modman
+Comment=Mod manager for Risk of Rain 2, GTFO, and more
+Exec=/usr/bin/r2modman
+Icon=/usr/lib/r2modman/icon.png
+Terminal=false
+Type=Application
+Categories=Game;
+MimeType=x-scheme-handler/ror2mm;
