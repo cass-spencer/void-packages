@@ -1,0 +1,25 @@
+# Template file for 'mediamtx'
+pkgname=mediamtx
+version=1.19.3
+revision=1
+build_style=go
+go_import_path="github.com/bluenviron/mediamtx"
+conf_files="/etc/mediamtx/mediamtx.yml"
+short_desc="Media server for SRT/WebRTC/RTSP/RTMP/LL-HLS"
+maintainer="Cass Spencer <casscardboard@gmail.com>"
+license="MIT"
+homepage="https://github.com/bluenviron/mediamtx"
+distfiles="${homepage}/archive/refs/tags/v${version}.tar.gz"
+checksum=eba0aaccb3ea834988dca35d3dce3772ead0d790f9e27d89ea02563330874e85
+
+pre_build() {
+	go generate ./...
+	vsed -i internal/core/VERSION -e "s/v0.0.0/v${version}/"
+}
+
+post_install() {
+	vlicense LICENSE
+	vdoc README.md
+	vinstall mediamtx.yml 644 etc/mediamtx/
+	vsconf mediamtx.yml
+}
