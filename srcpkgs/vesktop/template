@@ -1,0 +1,32 @@
+# Template file for 'vesktop'
+pkgname=vesktop
+version=1.6.5
+revision=1
+hostmakedepends="nodejs"
+depends="libnotify xdg-utils"
+short_desc="Custom Discord app with Vencord"
+maintainer="Cass Spencer <casscardboard@gmail.com>"
+license="GPL-3.0-or-later"
+homepage="https://github.com/Vencord/Vesktop"
+distfiles="${homepage}/archive/refs/tags/v${version}.tar.gz"
+checksum=4bb9b5e1acaf17a5f145931008fe4015f9b8c1116b769e1a55a68d5483f238fc
+
+pre_build() {
+	npm install --global pnpm
+	pnpm i --frozen-lockfile
+}
+
+do_build() {
+	pnpm package:dir
+}
+
+do_install() {
+	vmkdir usr/lib/vesktop/app
+	vcopy dist/linux-unpacked/* usr/lib/vesktop/app
+
+	vmkdir usr/bin
+	ln -sf /usr/lib/vesktop/app/vesktop "${DESTDIR}/usr/bin/"
+
+	vinstall build/icon.svg 644 usr/share/icons/hicolor/scalable/apps/ vesktop.svg
+	vinstall ${FILESDIR}/vesktop.desktop 644 usr/share/applications
+}
